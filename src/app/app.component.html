@@ -1,20 +1,63 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<!-- start page  -->
+<div *ngIf="toggleStart">
+  <h1 class="head">Welcome To Quiz Khelo PratiYogita</h1>
+  <div class="instruction">
+    <h2>Instructions</h2>
+    <ul>
+      <li>
+        <h3>This is very tough exam.</h3>
+      </li>
+      <li>
+        <h3>So write with open book and internet.</h3>
+      </li>
+      <li>
+        <h3>Carefully select the option.</h3>
+      </li>
+      <li>
+        <h3>Time limit of 15 second.</h3>
+      </li>
+      <li>
+        <h3>Don't refresh the page.</h3>
+      </li>
+    </ul>
+
+    <!-- dropdown code  -->
+
+    <div class="dropdown">
+      <label>Select Your Subject: </label>
+      <select (change)="filterForSubject($event.target.value)">
+        <option value="0">select</option>
+        <option *ngFor="let name of subjects" value={{name.title}}>
+          {{name.title}}
+        </option>
+      </select>
+    </div>
+
+    <button (click)="Start()" class="primary">Start</button>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
+<!-- question page -->
+<div class="heading" *ngIf="toggleBody">
+  <div class="timer">
+    <h5>Countdown : {{counter}}</h5>
+  </div>
+  <div *ngFor="let question of filterData; let i=index;">
+    <p class="question">Q{{i+1 }}. {{ question.title}}</p>
+    <div *ngFor="let option of question.options;let j=index;">
+      <input type="radio" name="choices{{i}}" (click)="check($event,option)"> {{option.title}}
+    </div>
+  </div>
+  <button (click)="Submit()" class="primary1">Save</button>
+</div>
+
+<!-- result page -->
+<div class="result" *ngIf="toggleResult">
+  <h2 class="green">Congratulation !!</h2>
+  <h2>You successfuly completed the exam</h2>
+  <div class="blue">
+    <h4>Your Score</h4>{{count}}/3
+  </div>
+  <h3 class="blink" (click)="playAgain()">Click to play again</h3>
+</div>
 
